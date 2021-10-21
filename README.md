@@ -2,6 +2,33 @@
 
 Manage multiple asynchronous IoC/dependency injection containers and reuse bean wiring using modules.
 
+* [Introduction](#introduction)
+* [Opinionated usage](#opinionated-usage)
+  * [Provided container types](#provided-container-types)
+  * [Wiring file](#wiring-file)
+    * [Application modules](#application-modules)
+  * [Main entry point and startup sequence](#main-entry-point-and-startup-sequence)
+  * [Modularising it](#modularising-it)
+    * [common-wiring.js](#common-wiring.js)
+    * [cli-wiring.js](#cli-wiring.js)
+    * [console-wiring.js](#console-wiring.js)
+    * [wiring.js](#wiring.js)
+  * [Overriding beans for testing](#overriding-beans-for-testing)
+  * [Opinionated usage API](#opinionated-usage-api)
+    * [StructuredWiringBuilder](#structuredwiringbuilder)
+    * [StructuredWiring](#structuredwiring)
+* [Generic wiring](#generic-wiring)
+  * [Concepts](#concepts)
+    * [WiringBuilder and Wiring](#wiringbuilder-and-wiring)
+    * [Container types](#container-types)
+    * [Adjusters](#adjusters)
+    * [Container creation](#container-creation)
+    * [Subclassing](#subclassing)
+  * [Generic wiring API](#generic-wiring-api)
+    * [WiringBuilder](#wiringbuilder)
+    * [Wiring](#wiring)
+* [Version history](#version-history)
+
 ## Introduction
 
 Dependency injection is a valuable technique when developing complex applications, allowing modules to be loosely coupled and easily testable. Using a dedicated dependency injection container allows beans to be defined, and specified as dependencies for other beans. We refer to collections of interrelated beans, possibly spanning multiple containers, as "wiring".
@@ -21,7 +48,7 @@ It will probably be most instructive to present the opinionated structure first,
 
 We'll build a commandline "hello, world" application, but we'll overcomplicate it so with a bit of imagination you might be able to see how the techniques would apply to real microservices.
 
-### Container types
+### Provided container types
 
 The opinionated application structure is based on these container types:
 
@@ -575,7 +602,7 @@ These requirements are because when wiring clones itself, it is done by calling 
 
 `StructuredWiringBuilding` and `StructuredWiring` serve as examples of this.
 
-### API
+### Generic wiring API
 
 #### WiringBuilder
 

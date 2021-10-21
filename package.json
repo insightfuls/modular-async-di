@@ -1,6 +1,6 @@
 {
   "name": "modular-async-di",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Manage multiple asynchronous IoC/dependency injection containers and reuse bean wiring using modules",
   "main": "src/index.js",
   "directories": {
