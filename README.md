@@ -469,10 +469,10 @@ Very brief summary. See the tutorial examples above to understand how these work
 
 * `new StructuredWiringBuilder([wiring])`
 * `builder.adjustBaseWiring(async (addWiring) => { ... })`
-* `builder.adjustBootContainer(async (container, [bootOptions]) => { ... })`
+* `builder.adjustBootContainer(async (bootContainer, [bootOptions]) => { ... })`
 * `builder.adjustWiringAfterBoot(async (addWiring, bootContainer) => { ... })`
-* `builder.adjustAppContainer(async (addWiring, bootContainer) => { ... })`
-* `builder.adjustScopeContainer([scopeType,] async (container, ...) => { ... })`
+* `builder.adjustAppContainer(async (appContainer, bootContainer) => { ... })`
+* `builder.adjustScopeContainer([scopeType,] async (scopeContainer, ...) => { ... })`
 * `builder.addWiring(wiring)`
 * `builder.build()`
 * plus other methods inherited from `WiringBuilder` but which probably should be avoided
