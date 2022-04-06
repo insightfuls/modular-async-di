@@ -190,7 +190,7 @@ require('./wiring')
 
 It runs now:
 
-```javascript
+```console
 $ npm install modular-async-di
 $ npm install chalk
 $ node main.js John Howard --colour
