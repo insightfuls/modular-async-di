@@ -62,7 +62,7 @@ The opinionated application structure is based on these container types:
 
 The application's wiring is generally encapsulated in a single file, e.g. `wiring.js`. Here's a "hello, world" one.
 
-```
+```javascript
 const { StructuredWiringBuilder } = require('modular-async-di');
 const modules = require('./modules');
 const chalk = require('chalk');
@@ -138,7 +138,7 @@ Don't forget that the dependency injection containers are from [minimalist-async
 
 Here are the modules for our little example application (`modules.js`):
 
-```
+```javascript
 exports.parseCommandLine = function(cliArguments) {
     return {
         useColour: cliArguments.includes("--colour") || cliArguments.includes("--color"),
@@ -178,7 +178,7 @@ The only interesting part is in the `App` where a request scope container is cre
 
 The `main.js` for "hello, world" is very simple:
 
-```
+```javascript
 require('./wiring')
 .createBootContainer({
     emphasisColour: "magenta"
@@ -190,7 +190,7 @@ require('./wiring')
 
 It runs now:
 
-```
+```javascript
 $ npm install modular-async-di
 $ npm install chalk
 $ node main.js John Howard --colour
@@ -222,7 +222,7 @@ Even in this small application we can see opportunities to split this wiring int
 
 #### common-wiring.js
 
-```
+```javascript
 const { StructuredWiringBuilder } = require('modular-async-di');
 
 exports.commonWiring = function() {
@@ -274,7 +274,7 @@ There are a few points of interest:
 
 #### cli-wiring.js
 
-```
+```javascript
 const { StructuredWiringBuilder } = require('modular-async-di');
 const { commonWiring } = require('./common-wiring');
 
@@ -297,7 +297,7 @@ Of interest above is that the common wiring is imported into the `StructuredWiri
 
 #### console-wiring.js
 
-```
+```javascript
 const { StructuredWiringBuilder, requireVersion } = require('modular-async-di');
 
 exports.consoleWiring = function(options) {
@@ -349,7 +349,7 @@ All the wiring modules above would be published to one or more NPM modules, eith
 
 Finally, here's what the application's `wiring.js` now looks like to compose the modules:
 
-```
+```javascript
 const { StructuredWiringBuilder } = require('modular-async-di');
 const { cliWiring } = require('./library/cli-wiring');
 const { consoleWiring } = require('./library/console-wiring');
@@ -412,7 +412,7 @@ The application can be run and behaves exactly the same as the [unmodularised ve
 
 Another use case for wiring modularisation is testing. You can import the application's wiring, further adjust it to replace beans with test doubles, and then execute your tests. For example:
 
-```
+```javascript
 const expect = require('chai').expect;
 const { StructuredWiringBuilder } = require('..');
 const builder = new StructuredWiringBuilder(require('./wiring'));
@@ -522,7 +522,7 @@ Wiring adjusters are more complicated. They can be called before any container i
 
 Any given adjuster is only ever applied once. For container adjusters this means once during the creation of any particular container. For wiring adjusters this means both not calling the adjuster more than once for the same `Wiring` instance (subject to the 'branching' that occurs to give the illusion of immutability which will be [discussed shortly](#container-creation)), and to the container adjusters in any wiring added, just as for other container adjusters. This can be helpful in some advanced scenarios where the same adjuster may be registered more than once, as it is included by multiple wiring modules, but it must be done with care. It will not work if you just create new closures with the same source code, for example this will produce a "bean already registered" error:
 
-```
+```javascript
 function applyAdjustment(builder) {
 	builder.adjustContainer("SomeType", async (container) => {
 		const { register, value } = container;
@@ -538,7 +538,7 @@ builder.build().createContainer("SomeType"); // rejects
 
 This will work, however, because the same function (`Function` instance), stored in a variable, is passed for both adjustments:
 
-```
+```javascript
 function adjuster = async (container) => {
 	const { register, value } = container;
 	register("bean", value("value"));
